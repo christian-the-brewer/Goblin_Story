@@ -22,14 +22,14 @@ let sword = 10
 playerSwordBonus = 1
 //fireball damage
 let fireball = 30
-//fireball mana cost
-let fireballMana = 5
+//fireball magic cost
+let fireballMagic = 5
 //player spell stat. Each upgrade increases this by 2. It is added to each attack
 let playerFireballBonus = 2
 //player potion of health inventory
 let healthPotionCount = 1
-//player potion of mana inventory
-let manaPotionCount = 1
+//player potion of magic inventory
+let magicPotionCount = 1
 //-----------------------------------
 //world variables
 let levelCounter = 0
@@ -83,6 +83,11 @@ if (playerSwordBonus > 0) {
 if (playerFireballBonus > 0) {
     fireballButton.innerText = "+ " + playerFireballBonus + " Fireball"
 }
+
+
+//show inventory of potions
+document.querySelector('#healthPotion').innerText = "Potion of Healing " + healthPotionCount
+document.querySelector('#magicPotion').innerText = "Potion of Magic " + magicPotionCount
 //create enemies
 //Scamps
 const scamp = {
