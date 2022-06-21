@@ -139,14 +139,22 @@ const lich = {
 
 }
 //function to roll for damage
-const rollForDamage = (min, max) => {
-    return (Math.floor(Math.random() * max) + min)
+const rollForDamage = () => {
+    return (Math.floor(Math.random() * (15 - 5 + 1)) + 5)
 }
 
 //function to roll d20
 const rollD20 = () => {
     return (Math.floor(Math.random() * 20) + 1)
 }
+
+//function to check for hit
+const rollForHit = (AC, attk) => {
+    return ((rollD20() + attk) >= AC)
+
+}
+
+
 //function for change screen to town
 
 //function to change screen to combat
