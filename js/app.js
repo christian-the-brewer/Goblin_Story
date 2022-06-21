@@ -14,7 +14,7 @@ let attack = 0
 //character gold
 let gold = 10
 //player name
-//------------------------------
+const playerName = 'Gygax'
 //PLAYER INVENTORY STATS
 //sword damage
 let sword = 10
@@ -61,6 +61,17 @@ if (currentMagic <= 5) {
     healthBar.style.backgroundColor = 'orange'
 }
 
+
+//set up character sheet with info
+//grab character name on character sheet
+const characterName = document.querySelector('#characterName')
+//set name on character sheet
+characterName.innerText = "---" + playerName + "---"
+//grab armor and attack value
+const armor = document.querySelector('#armor')
+armor.innerText = "Armor: " + armorClass
+const attackBonus = document.querySelector('#attack')
+attackBonus.innerText = "Attack Bonus: " + attack
 //create enemies
 //Scamps
 const scamp = {
