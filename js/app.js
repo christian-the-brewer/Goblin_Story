@@ -2,11 +2,11 @@
 //character  max health
 let maxHealth = 50
 //character current health
-let currentHealth = 20
+let currentHealth = 5
 //character max mana
 let maxMagic = 20
 //character current mana
-let currentMagic = 20
+let currentMagic = 2
 //character armor class
 let armorClass = 10
 //character attack
@@ -50,12 +50,14 @@ goldBar.innerText = gold
 
 //function for health bar display
 const updateHealth = () => {
-    healthBar.innerText = currentHealth + "/" + maxHealth
     if (currentHealth <= 10) {
-        healthBar.style.backgroundColor = 'yellow'
+        healthBar.style.backgroundColor = 'red'
     } else if (currentHealth <= 20) {
         healthBar.style.backgroundColor = 'orange'
+    } else {
+        healthBar.style.backgroundColor = 'green'
     }
+    healthBar.innerText = currentHealth + "/" + maxHealth
 }
 
 //function for magic display bar
@@ -64,6 +66,8 @@ const updateMagic = () => {
         magicBar.style.backgroundColor = 'red'
     } else if (currentMagic <= 10) {
         magicBar.style.backgroundColor = 'orange'
+    } else {
+        magicBar.style.backgroundColor = 'blue'
     }
     magicBar.innerText = currentMagic + "/" + maxMagic
 }
@@ -74,20 +78,6 @@ const updateGold = (loot) => {
     goldBar.innerText = gold
 
 }
-//change color of status bars when values are low
-//change healthBar color
-// if (currentHealth <= 10) {
-//     healthBar.style.backgroundColor = 'yellow'
-// } else if (currentHealth <= 20) {
-//     healthBar.style.backgroundColor = 'orange'
-// }
-//change magicBar color
-// if (currentMagic <= 5) {
-//     magicBar.style.backgroundColor = 'red'
-// } else if (currentMagic <= 10) {
-//     magicBar.style.backgroundColor = 'orange'
-// }
-
 
 //set up character sheet with info
 //grab character name on character sheet
@@ -190,7 +180,13 @@ const clickSword = () => {
 
 //function for fireball button
 const clickFireball = () => {
-
+    if (currentMagic >= 5) {
+        currentMagic -= 5
+        updateMagic()
+        console.log("cast firebal")
+        console.log(currentMagic)
+        //deal damage = (30 + playerFireballBonus)
+    }
 }
 
 //function for health potion button
@@ -230,3 +226,5 @@ swordButton.addEventListener('click', clickSword)
 fireballButton.addEventListener('click', clickFireball)
 healthPotionButton.addEventListener('click', clickHealth)
 magicPotionButton.addEventListener('click', clickMagic)
+
+document.addEventListener('DOMContentLoaded', updateHealth(), updateMagic())
