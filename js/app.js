@@ -27,7 +27,7 @@ let fireballMagic = 5
 //player spell stat. Each upgrade increases this by 2. It is added to each attack
 let playerFireballBonus = 2
 //player potion of health inventory
-let healthPotionCount = 1
+let healthPotionCount = 2
 //player potion of magic inventory
 let magicPotionCount = 1
 //-----------------------------------
@@ -138,7 +138,15 @@ const lich = {
     monsterDamage: 20,
 
 }
+//function to roll for damage
+const rollForDamage = (min, max) => {
+    return (Math.floor(Math.random() * max) + min)
+}
 
+//function to roll d20
+const rollD20 = () => {
+    return (Math.floor(Math.random() * 20) + 1)
+}
 //function for change screen to town
 
 //function to change screen to combat
