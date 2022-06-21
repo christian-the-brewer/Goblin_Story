@@ -1,0 +1,15 @@
+.statusBars {
+    display: inline-block;
+}
+
+#healthBar {
+    background-color: red;
+}
+
+#magicBar {
+    background-color: blue;
+}
+
+#goldBar {
+    background-color: gold;
+}

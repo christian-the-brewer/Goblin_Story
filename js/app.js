@@ -3,6 +3,10 @@
 let maxHealth = 50
 //character current health
 let currentHealth = 50
+//character max mana
+let maxMagic = 20
+//character current mana
+let currentMagic = 20
 //character armor class
 let armorClass = 10
 //character attack
@@ -32,6 +36,30 @@ let levelCounter = 0
 
 //sword upgrade button increases swordBonus
 
+
+//set up topBar
+//grab elements
+const healthBar = document.querySelector('#healthBar')
+const magicBar = document.querySelector('#magicBar')
+const goldBar = document.querySelector('#goldBar')
+//fill elements with information
+healthBar.innerText = currentHealth + "/" + maxHealth
+magicBar.innerText = currentMagic + "/" + maxMagic
+goldBar.innerText = gold
+
+//change color of status bars when values are low
+//change healthBar color
+if (currentHealth <= 10) {
+    healthBar.style.backgroundColor = 'yellow'
+} else if (currentHealth <= 20) {
+    healthBar.style.backgroundColor = 'orange'
+}
+//change magicBar color
+if (currentMagic <= 5) {
+    healthBar.style.backgroundColor = 'red'
+} else if (currentHealth <= 10) {
+    healthBar.style.backgroundColor = 'orange'
+}
 
 //create enemies
 //Scamps
@@ -94,3 +122,4 @@ const lich = {
 
 //combat
 // after player clicks an action game will check to see if enemy is alive and if so they will attack
+
