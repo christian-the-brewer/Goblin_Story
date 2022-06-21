@@ -2,7 +2,7 @@
 //character  max health
 let maxHealth = 50
 //character current health
-let currentHealth = 50
+let currentHealth = 20
 //character max mana
 let maxMagic = 20
 //character current mana
@@ -47,19 +47,46 @@ healthBar.innerText = currentHealth + "/" + maxHealth
 magicBar.innerText = currentMagic + "/" + maxMagic
 goldBar.innerText = gold
 
+
+//function for health bar display
+const updateHealth = () => {
+    healthBar.innerText = currentHealth + "/" + maxHealth
+    if (currentHealth <= 10) {
+        healthBar.style.backgroundColor = 'yellow'
+    } else if (currentHealth <= 20) {
+        healthBar.style.backgroundColor = 'orange'
+    }
+}
+
+//function for magic display bar
+const updateMagic = () => {
+    if (currentMagic <= 5) {
+        magicBar.style.backgroundColor = 'red'
+    } else if (currentMagic <= 10) {
+        magicBar.style.backgroundColor = 'orange'
+    }
+    magicBar.innerText = currentMagic + "/" + maxMagic
+}
+
+//function to update gold
+const updateGold = (loot) => {
+    gold += loot
+    goldBar.innerText = gold
+
+}
 //change color of status bars when values are low
 //change healthBar color
-if (currentHealth <= 10) {
-    healthBar.style.backgroundColor = 'yellow'
-} else if (currentHealth <= 20) {
-    healthBar.style.backgroundColor = 'orange'
-}
+// if (currentHealth <= 10) {
+//     healthBar.style.backgroundColor = 'yellow'
+// } else if (currentHealth <= 20) {
+//     healthBar.style.backgroundColor = 'orange'
+// }
 //change magicBar color
-if (currentMagic <= 5) {
-    healthBar.style.backgroundColor = 'red'
-} else if (currentHealth <= 10) {
-    healthBar.style.backgroundColor = 'orange'
-}
+// if (currentMagic <= 5) {
+//     magicBar.style.backgroundColor = 'red'
+// } else if (currentMagic <= 10) {
+//     magicBar.style.backgroundColor = 'orange'
+// }
 
 
 //set up character sheet with info
@@ -86,8 +113,10 @@ if (playerFireballBonus > 0) {
 
 
 //show inventory of potions
-document.querySelector('#healthPotion').innerText = "Potion of Healing " + healthPotionCount
-document.querySelector('#magicPotion').innerText = "Potion of Magic " + magicPotionCount
+const healthPotionButton = document.querySelector('#healthPotion')
+const magicPotionButton = document.querySelector('#magicPotion')
+healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
+magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
 //create enemies
 //Scamps
 const scamp = {
@@ -154,6 +183,36 @@ const rollForHit = (AC, attk) => {
 
 }
 
+//function for sword button
+const clickSword = () => {
+
+}
+
+//function for fireball button
+const clickFireball = () => {
+
+}
+
+//function for health potion button
+const clickHealth = () => {
+    if (healthPotionCount > 0) {
+        currentHealth = maxHealth
+        healthPotionCount -= 1
+        healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
+        updateHealth()
+    }
+}
+
+//function for magic potion button
+const clickMagic = () => {
+    if (magicPotionCount > 0) {
+        currentMagic = maxMagic
+        magicPotionCount -= 1
+        magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
+        updateMagic()
+    }
+}
+//button events
 
 //function for change screen to town
 
@@ -166,3 +225,8 @@ const rollForHit = (AC, attk) => {
 //combat
 // after player clicks an action game will check to see if enemy is alive and if so they will attack
 
+//add listneners to all the buttons
+swordButton.addEventListener('click', clickSword)
+fireballButton.addEventListener('click', clickFireball)
+healthPotionButton.addEventListener('click', clickHealth)
+magicPotionButton.addEventListener('click', clickMagic)
