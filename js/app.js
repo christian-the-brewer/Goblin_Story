@@ -19,13 +19,13 @@ const playerName = 'Gygax'
 //sword damage
 let sword = 10
 //player weapon stat. Each upgrade will increase this by 1. It is added to each attack
-playerSwordBonus = 0
+playerSwordBonus = 1
 //fireball damage
 let fireball = 30
 //fireball mana cost
 let fireballMana = 5
 //player spell stat. Each upgrade increases this by 2. It is added to each attack
-let playerFireballBonus = 0
+let playerFireballBonus = 2
 //player potion of health inventory
 let healthPotionCount = 1
 //player potion of mana inventory
@@ -72,6 +72,17 @@ const armor = document.querySelector('#armor')
 armor.innerText = "Armor: " + armorClass
 const attackBonus = document.querySelector('#attack')
 attackBonus.innerText = "Attack Bonus: " + attack
+
+//show attack button upgrade levels
+const swordButton = document.querySelector('#swordButton')
+const fireballButton = document.querySelector('#fireballButton')
+if (playerSwordBonus > 0) {
+    swordButton.innerText = "+ " + playerSwordBonus + " Sword"
+}
+
+if (playerFireballBonus > 0) {
+    fireballButton.innerText = "+ " + playerFireballBonus + " Fireball"
+}
 //create enemies
 //Scamps
 const scamp = {
