@@ -83,3 +83,14 @@ const lich = {
     monsterDamage: 20,
 
 }
+
+//function for change screen to town
+
+//function to change screen to combat
+
+//on page load, load up start screen to accept name input
+//button assigns name to playerName and loads into intro screen that listens to for mouse clicks to continue
+
+
+//combat
+// after player clicks an action game will check to see if enemy is alive and if so they will attack
