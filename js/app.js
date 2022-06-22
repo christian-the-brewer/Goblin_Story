@@ -197,15 +197,22 @@ const rollForHit = (AC, attk) => {
 
 //function for sword button
 const clickSword = () => {
+    let rolledDamage = 0
+    enemyActionText.innerText = ''
     if (rollForHit(10, 0)) {
-        enemyHP -= rollForDamage()
+        rolledDamage = rollForDamage()
+        enemyHP -= rolledDamage
         console.log(enemyHP)
+        playerActionText.innerText = 'You slash with your sword for ' + rolledDamage + ' damage!'
+    } else {
+        playerActionText.innerText = 'You slash with you sword but miss!'
     }
     if (enemyHP < 1) {
+        playerActionText.innerText = 'You slash with your sword for ' + rolledDamage + ' damage!'
         resultText.innerText = "You have defeated the scamp!"
         continueButton.style.display = 'block'
     }
-    turnCounter = !turnCounter
+    enemyAttack()
 }
 
 //function for fireball button
@@ -213,9 +220,13 @@ const clickFireball = () => {
     if (currentMagic >= 5) {
         currentMagic -= 5
         updateMagic()
-        console.log("cast firebal")
-        console.log(currentMagic)
-        //deal damage = (30 + playerFireballBonus)
+        enemyActionText.innerText = ''
+        playerActionText.innerText = 'You cast Fireball! It burns the enemy for 30 damage!'
+        enemyHP -= 30
+        if (enemyHP < 1) {
+            resultText.innerText = "You have defeated the scamp!"
+            continueButton.style.display = 'block'
+        }
         turnCounter = !turnCounter
     }
 }
@@ -261,6 +272,16 @@ const nextEncounter = () => {
 
 }
 
+//function to attack player 
+const enemyAttack = () => {
+    if (rollForHit(armorClass, 0)) {
+        currentHealth -= 5
+        updateHealth()
+        enemyActionText.innerText = 'The Scamp swipes at you for 5 damage!'
+    } else {
+        enemyActionText.innerText = 'You block the enemy Scamps\'s attack!'
+    }
+}
 
 //button events
 
