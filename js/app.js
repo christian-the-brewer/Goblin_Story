@@ -2,11 +2,11 @@
 //character  max health
 let maxHealth = 50
 //character current health
-let currentHealth = 5
+let currentHealth = 50
 //character max mana
 let maxMagic = 20
 //character current mana
-let currentMagic = 2
+let currentMagic = 20
 //character armor class
 let armorClass = 10
 //character attack
@@ -83,6 +83,7 @@ const updateMagic = () => {
 const updateGold = (loot) => {
     gold += loot
     goldBar.innerText = gold
+    console.log(loot)
 
 }
 
@@ -126,6 +127,26 @@ const enemyActionText = document.querySelector('#enemyActionText')
 const resultText = document.querySelector('#resultText')
 //continue button for after combat
 const continueButton = document.querySelector('#continueButton')
+//town button to go into town
+const townButton = document.querySelector('#townButton')
+//town places
+const stayAtInnButton = document.querySelector('#stayAtInn')
+const blacksmithButton = document.querySelector('#blacksmith')
+const shamanButton = document.querySelector('#shaman')
+const merchantButton = document.querySelector('#merchant')
+//town screens
+const blacksmithScreen = document.querySelector('#blacksmithScreen')
+const shamanScreen = document.querySelector('#shamanScreen')
+const merchantScreen = document.querySelector('#merchantScreen')
+//town purchases
+const swordUpgradeButton = document.querySelector('#upgradeSword')
+const fireballUpgradeButton = document.querySelector('#upgradeFireball')
+const buyHealthPotionButton = document.querySelector('#buyHealthPotion')
+const buyMagicPotionButton = document.querySelector('#buyMagicPotion')
+//town go back buttons
+const goBackBlacksmithButton = document.querySelector('#goBackBlacksmith')
+const goBackShamanButton = document.querySelector('#goBackShaman')
+const goBackMerchantButton = document.querySelector('#goBackMerchant')
 
 let enemyHP = 40
 
@@ -137,6 +158,7 @@ const scamp = {
     monsterAC: 12,
     monsterAttack: 0,
     monsterDamage: 5,
+    drop: 3
 
 }
 
@@ -147,6 +169,7 @@ const adventurer = {
     monsterAC: 10,
     monsterAttack: 1,
     monsterDamage: 7,
+    drop: 5
 
 }
 
@@ -157,6 +180,7 @@ const troll = {
     monsterAC: 8,
     monsterAttack: 0,
     monsterDamage: 14,
+    drop: 10
 
 }
 
@@ -167,6 +191,7 @@ const hero = {
     monsterAC: 15,
     monsterAttack: 3,
     monsterDamage: 16,
+    drop: 30
 
 }
 
@@ -212,7 +237,11 @@ const clickSword = () => {
         resultText.innerText = "You have defeated the scamp!"
         continueButton.style.display = 'block'
     }
-    enemyAttack()
+    if (enemyHP > 0) {
+        enemyAttack()
+    } else if (enemyHP < 1) {
+        enemyDefeated()
+    }
 }
 
 //function for fireball button
@@ -227,7 +256,12 @@ const clickFireball = () => {
             resultText.innerText = "You have defeated the scamp!"
             continueButton.style.display = 'block'
         }
-        turnCounter = !turnCounter
+        if (enemyHP > 0) {
+            enemyAttack()
+        } else if (enemyHP < 1) {
+            enemyDefeated()
+        }
+
     }
 }
 
@@ -238,7 +272,10 @@ const clickHealth = () => {
         healthPotionCount -= 1
         healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
         updateHealth()
-        turnCounter = !turnCounter
+        playerActionText.innerText = 'You take a quick drink of a healing potion. Your stamina is replenished as your wounds are healed'
+        if (enemyHP > 0) {
+            enemyAttack()
+        }
     }
 }
 
@@ -249,7 +286,10 @@ const clickMagic = () => {
         magicPotionCount -= 1
         magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
         updateMagic()
-        turnCounter = !turnCounter
+        playerActionText.innerText = 'You take a quick drink of a magic potion. Your magic reserves are restored as power flows through your body'
+        if (enemyHP > 0) {
+            enemyAttack()
+        }
     }
 }
 
@@ -258,15 +298,13 @@ const nextEncounter = () => {
     //increment level counter
     levelCounter++
     continueButton.style.display = 'none'
+    townButton.style.display = 'none'
     playerActionText.innerText = ''
     enemyActionText.innerText = ''
     resultText.innerText = ''
     battleHeader.innerText = "You have encountered a scamp!"
     enemyHP = 40
-    if (enemyHP < 1) {
-        resultText.innerText = "You have defeated the scamp!"
-        continueButton.style.display = 'block'
-    }
+
 
 
 
@@ -280,6 +318,45 @@ const enemyAttack = () => {
         enemyActionText.innerText = 'The Scamp swipes at you for 5 damage!'
     } else {
         enemyActionText.innerText = 'You block the enemy Scamps\'s attack!'
+    }
+    if (currentHealth < 1) {
+        resultText.innerText = 'You have been defeated. As you fall to the cold, dark dungeon floor, your last thoughts are of your family...'
+
+    }
+}
+
+//function for defeated enemy
+const enemyDefeated = () => {
+    resultText.innerText = "You have defeated the scamp!"
+    continueButton.style.display = 'block'
+    townButton.style.display = 'block'
+    updateGold(scamp.drop)
+}
+
+//function for changing view from combat to town
+const townView = () => {
+    continueButton.style.display = 'block'
+    townButton.style.display = 'none'
+    playerActionText.innerText = ''
+    enemyActionText.innerText = ''
+    resultText.innerText = ''
+    battleHeader.innerText = ''
+}
+
+//function for changing to town instead of combat
+const goToTown = () => {
+    townView()
+}
+
+//function for staying at in
+const stayAtInn = () => {
+    if (gold > 4) {
+        gold -= 5
+        updateGold()
+        currentHealth = maxHealth
+        updateHealth()
+        currentMagic = maxMagic
+        updateMagic()
     }
 }
 
@@ -295,7 +372,23 @@ const enemyAttack = () => {
 
 //combat
 // after player clicks an action game will check to see if enemy is alive and if so they will attack
-
+const stayAtInnButton = document.querySelector('#stayAtInn')
+const blacksmithButton = document.querySelector('#blacksmith')
+const shamanButton = document.querySelector('#shaman')
+const merchantButton = document.querySelector('#merchant')
+//town screens
+const blacksmithScreen = document.querySelector('#blacksmithScreen')
+const shamanScreen = document.querySelector('#shamanScreen')
+const merchantScreen = document.querySelector('#merchantScreen')
+//town purchases
+const swordUpgradeButton = document.querySelector('#upgradeSword')
+const fireballUpgradeButton = document.querySelector('#upgradeFireball')
+const buyHealthPotionButton = document.querySelector('#buyHealthPotion')
+const buyMagicPotionButton = document.querySelector('#buyMagicPotion')
+//town go back buttons
+const goBackBlacksmithButton = document.querySelector('#goBackBlacksmith')
+const goBackShamanButton = document.querySelector('#goBackShaman')
+const goBackMerchantButton = document.querySelector('#goBackMerchant')
 
 
 //add listneners to all the buttons
@@ -304,5 +397,6 @@ fireballButton.addEventListener('click', clickFireball)
 healthPotionButton.addEventListener('click', clickHealth)
 magicPotionButton.addEventListener('click', clickMagic)
 continueButton.addEventListener('click', nextEncounter)
-
+townButton.addEventListener('click', goToTown)
+stayAtInnButton.addEventListener('click', stayAtInn)
 document.addEventListener('DOMContentLoaded', updateHealth(), updateMagic())

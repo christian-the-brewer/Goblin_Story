@@ -26,17 +26,43 @@
         </div>
         <div class="row" id="screen">
             <div class="col-6" id="textScreen">
+                <div id="townScreen">
+                    <button id="stayAtInn">Stay at Inn: 5 Gold</button>
+                    <ul>
+                        <li id="blacksmith">Blacksmith</li>
+                        <li id="shaman">Shaman's Hut</li>
+                        <li id="Merchant">Merchant</li>
+                    </ul>
+                </div>
+                <div id="blacksmithScreen">
+                    <ul>
+                        <li id="upgradeSword">Upgrade Sword : 20 Gold</li>
+                        <li id="goBackBlacksmith">Go back</li>
+                    </ul>
+                </div>
+                <div id="shamanScreen">
+                    <ul>
+                        <li id="upgradeFireball">Upgrade Fireball : 40 Gold</li>
+                        <li id="goBackShaman">Go back</li>
+                    </ul>
+                </div>
+                <div id="merchantScreen">
+                    <ul>
+                        <li id="buyHealthPotion">Health Potion : 10 Gold</li>
+                        <li id="buyMagicPotion">Magic Potion : 15 Gold</li>
+                        <li id="goBackMerchant">Go back</li>
+                    </ul>
+                </div>
                 <div id="combatScreen">
                     <h2 id="battleHeader"></h2>
                     <p id="playerActionText"></p>
                     <p id="enemyActionText"></p>
                     <p id="resultText"></p>
-                    <button id="continueButton">Venture Forth</button>
+                    <button class="m-1" id="continueButton">Venture Forth</button>
+                    <button class="m-1" id="townButton">Back to Enclave</button>
                 </div>
-                <div id="townScreen"></div>
-                <div id="blacksmithScreen"></div>
-                <div id="shamanScreen"></div>
-                <div id="merchantScreen"></div>
+
+
             </div>
             <div class="col-6" id="artScreen"></div>
         </div>
