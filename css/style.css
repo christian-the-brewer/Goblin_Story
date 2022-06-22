@@ -13,3 +13,7 @@
 #goldBar {
     background-color: gold;
 }
+
+#screen {
+    height: 500px;
+}

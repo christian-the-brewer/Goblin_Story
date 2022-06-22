@@ -33,6 +33,7 @@ let magicPotionCount = 1
 //-----------------------------------
 //world variables
 let levelCounter = 0
+let turnCounter = true
 
 //sword upgrade button increases swordBonus
 
@@ -47,6 +48,9 @@ healthBar.innerText = currentHealth + "/" + maxHealth
 magicBar.innerText = currentMagic + "/" + maxMagic
 goldBar.innerText = gold
 
+//grab screen divs
+const textScreen = document.querySelector('#textScreen')
+const artScreen = document.querySelector('#artScreen')
 
 //function for health bar display
 const updateHealth = () => {
@@ -64,10 +68,13 @@ const updateHealth = () => {
 const updateMagic = () => {
     if (currentMagic <= 5) {
         magicBar.style.backgroundColor = 'red'
+        magicBar.style.color = 'black'
     } else if (currentMagic <= 10) {
         magicBar.style.backgroundColor = 'orange'
+        magicBar.style.color = 'black'
     } else {
         magicBar.style.backgroundColor = 'blue'
+        magicBar.style.color = 'red'
     }
     magicBar.innerText = currentMagic + "/" + maxMagic
 }
@@ -175,7 +182,7 @@ const rollForHit = (AC, attk) => {
 
 //function for sword button
 const clickSword = () => {
-
+    turnCounter = !turnCounter
 }
 
 //function for fireball button
@@ -186,6 +193,7 @@ const clickFireball = () => {
         console.log("cast firebal")
         console.log(currentMagic)
         //deal damage = (30 + playerFireballBonus)
+        turnCounter = !turnCounter
     }
 }
 
@@ -196,6 +204,7 @@ const clickHealth = () => {
         healthPotionCount -= 1
         healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
         updateHealth()
+        turnCounter = !turnCounter
     }
 }
 
@@ -206,6 +215,7 @@ const clickMagic = () => {
         magicPotionCount -= 1
         magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
         updateMagic()
+        turnCounter = !turnCounter
     }
 }
 //button events
