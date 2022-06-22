@@ -114,6 +114,19 @@ const healthPotionButton = document.querySelector('#healthPotion')
 const magicPotionButton = document.querySelector('#magicPotion')
 healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
 magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
+
+
+//grab elements of combat screen
+//battle header that will display text
+const battleHeader = document.querySelector('#battleHeader')
+//next two lines will show actions by player and enemy
+const playerActionText = document.querySelector('#playerActionText')
+const enemyActionText = document.querySelector('#enemyActionText')
+//final line shows results of battle
+const resultText = document.querySelector('#resultText')
+//continue button for after combat
+const continueButton = document.querySelector('#continueButton')
+
 //create enemies
 //Scamps
 const scamp = {
@@ -218,6 +231,19 @@ const clickMagic = () => {
         turnCounter = !turnCounter
     }
 }
+
+// function to pull up next encounter after battle
+const nextEncounter = () => {
+    //increment level counter
+    levelCounter++
+    continueButton.style.display = 'none'
+    battleHeader.innerText = "You have encountered a scamp!"
+
+
+
+}
+
+
 //button events
 
 //function for change screen to town
@@ -231,10 +257,13 @@ const clickMagic = () => {
 //combat
 // after player clicks an action game will check to see if enemy is alive and if so they will attack
 
+
+
 //add listneners to all the buttons
 swordButton.addEventListener('click', clickSword)
 fireballButton.addEventListener('click', clickFireball)
 healthPotionButton.addEventListener('click', clickHealth)
 magicPotionButton.addEventListener('click', clickMagic)
+continueButton.addEventListener('click', nextEncounter)
 
 document.addEventListener('DOMContentLoaded', updateHealth(), updateMagic())

@@ -15,7 +15,9 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-4 p-1">Goblin Story</div>
+            <div class="col-4 p-1">
+                <h1>Goblin Story</h1>
+            </div>
         </div>
         <div class="row" id="topBar">
             <div class="col-3 m-2 p-1 border" class="statusBars" id="healthBar">healthbar</div>
@@ -23,7 +25,19 @@
             <div class="col-3 m-2 offset-2 p-1 border" class="statusBars" id="goldBar">goldbar</div>
         </div>
         <div class="row" id="screen">
-            <div class="col-6" id="textScreen"></div>
+            <div class="col-6" id="textScreen">
+                <div id="combatScreen">
+                    <h2 id="battleHeader"></h2>
+                    <p id="playerActionText"></p>
+                    <p id="enemyActionText"></p>
+                    <p id="resultText"></p>
+                    <button id="continueButton">Venture Forth</button>
+                </div>
+                <div id="townScreen"></div>
+                <div id="blacksmithScreen"></div>
+                <div id="shamanScreen"></div>
+                <div id="merchantScreen"></div>
+            </div>
             <div class="col-6" id="artScreen"></div>
         </div>
         <div class="row" id="menu">
