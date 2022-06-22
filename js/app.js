@@ -127,6 +127,8 @@ const resultText = document.querySelector('#resultText')
 //continue button for after combat
 const continueButton = document.querySelector('#continueButton')
 
+let enemyHP = 40
+
 //create enemies
 //Scamps
 const scamp = {
@@ -195,6 +197,14 @@ const rollForHit = (AC, attk) => {
 
 //function for sword button
 const clickSword = () => {
+    if (rollForHit(10, 0)) {
+        enemyHP -= rollForDamage()
+        console.log(enemyHP)
+    }
+    if (enemyHP < 1) {
+        resultText.innerText = "You have defeated the scamp!"
+        continueButton.style.display = 'block'
+    }
     turnCounter = !turnCounter
 }
 
@@ -237,7 +247,15 @@ const nextEncounter = () => {
     //increment level counter
     levelCounter++
     continueButton.style.display = 'none'
+    playerActionText.innerText = ''
+    enemyActionText.innerText = ''
+    resultText.innerText = ''
     battleHeader.innerText = "You have encountered a scamp!"
+    enemyHP = 40
+    if (enemyHP < 1) {
+        resultText.innerText = "You have defeated the scamp!"
+        continueButton.style.display = 'block'
+    }
 
 
 
