@@ -18,74 +18,94 @@
             <div class="col-4 p-1">
                 <h1>Goblin Story</h1>
             </div>
-        </div>
-        <div class="row" id="topBar">
-            <div class="col-3 m-2 p-1 border" class="statusBars" id="healthBar">healthbar</div>
-            <div class="col-3 m-2 offset-1 p-1 border" class="statusBars" id="magicBar">magicbar</div>
-            <div class="col-3 m-2 offset-2 p-1 border" class="statusBars" id="goldBar">goldbar</div>
-        </div>
-        <div class="row" id="screen">
-            <div class="col-6" id="textScreen">
-                <div id="townScreen">
+            <div id="startScreen">
+                <form id="form">
+                    <input id="input" type="text">
+                    <input type="submit">
+                </form>
+                <p>Enter your name and submit to start your journey</p>
+            </div>
 
-                    <ul id="townLocations">
-                        <li id="blacksmith">Blacksmith</li>
-                        <li id="shaman">Shaman's Hut</li>
-                        <li id="merchant">Merchant</li>
-                        <li id="stayAtInn">Stay at Inn: 5 Gold</li>
+        </div>
+        <div id="introScreen">
+            <p>
+                You are a goblin on a mission: to save your family. They have been turned to stone by a basilisk's gaze,
+                and you are their only hope (you were out picking Deep Mushrooms when the Basilisk attacked).
+                There are only two ways you know of to undo their petrification: a cleric's Greater Restoration,
+                or by killing the supreme ruler of the Underdark, the Lich king, and stealing their staff, the Staff of
+                Greater
+                Restoration. Since you dont know any clerics, you decide to...
+            </p>
+            <button id="killTheLich">KILL THE LICH KING</button>
+        </div>
+        <div id="gameScreen">
+            <div class="row" id="topBar">
+                <div class="col-3 m-2 p-1 border" class="statusBars" id="healthBar">healthbar</div>
+                <div class="col-3 m-2 offset-1 p-1 border" class="statusBars" id="magicBar">magicbar</div>
+                <div class="col-3 m-2 offset-2 p-1 border" class="statusBars" id="goldBar">goldbar</div>
+            </div>
+            <div class="row" id="screen">
+                <div class="col-6" id="textScreen">
+                    <div id="townScreen">
+
+                        <ul id="townLocations">
+                            <li id="blacksmith">Blacksmith</li>
+                            <li id="shaman">Shaman's Hut</li>
+                            <li id="merchant">Merchant</li>
+                            <li id="stayAtInn">Stay at Inn: 5 Gold</li>
+                        </ul>
+                    </div>
+                    <div id="blacksmithScreen">
+                        <ul>
+                            <li id="upgradeSword">Upgrade Sword : 20 Gold</li>
+                            <li id="goBackBlacksmith">Go back</li>
+                        </ul>
+                    </div>
+                    <div id="shamanScreen">
+                        <ul>
+                            <li id="upgradeFireball">Upgrade Fireball : 40 Gold</li>
+                            <li id="goBackShaman">Go back</li>
+                        </ul>
+                    </div>
+                    <div id="merchantScreen">
+                        <ul>
+                            <li id="buyHealthPotion">Health Potion : 10 Gold</li>
+                            <li id="buyMagicPotion">Magic Potion : 15 Gold</li>
+                            <li id="goBackMerchant">Go back</li>
+                        </ul>
+                    </div>
+
+                    <div id="combatScreen">
+                        <h2 id="battleHeader"></h2>
+                        <p id="playerActionText"></p>
+                        <p id="enemyActionText"></p>
+                        <p id="resultText"></p>
+                        <button class="m-1" id="continueButton">Venture Forth</button>
+                        <button class="m-1" id="townButton">Back to Enclave</button>
+                    </div>
+
+
+                </div>
+                <div class="col-6" id="artScreen"></div>
+            </div>
+            <div class="row" id="menu">
+                <div class="col-4" id="characterSheet">
+                    <p id="characterName"></p>
+                    <ul id="statsList">
+                        <li class="stats" id="armor">Armor: </li>
+                        <li class="stats" id="attack">Attack: </li>
                     </ul>
                 </div>
-                <div id="blacksmithScreen">
-                    <ul>
-                        <li id="upgradeSword">Upgrade Sword : 20 Gold</li>
-                        <li id="goBackBlacksmith">Go back</li>
-                    </ul>
+                <div class="col-4" id="attacks">
+                    <button class="actions m-2" id="swordButton">Sword</button>
+                    <button class="actionsm-2" id="fireballButton">Fireball</button>
                 </div>
-                <div id="shamanScreen">
-                    <ul>
-                        <li id="upgradeFireball">Upgrade Fireball : 40 Gold</li>
-                        <li id="goBackShaman">Go back</li>
-                    </ul>
+                <div class="col-4" id="pack">
+                    <button class="actions m-2" id="healthPotion">Potion of Healing</button>
+                    <button class="actions m-2" id="magicPotion">Potion of Magic</button>
                 </div>
-                <div id="merchantScreen">
-                    <ul>
-                        <li id="buyHealthPotion">Health Potion : 10 Gold</li>
-                        <li id="buyMagicPotion">Magic Potion : 15 Gold</li>
-                        <li id="goBackMerchant">Go back</li>
-                    </ul>
-                </div>
-
-                <div id="combatScreen">
-                    <h2 id="battleHeader"></h2>
-                    <p id="playerActionText"></p>
-                    <p id="enemyActionText"></p>
-                    <p id="resultText"></p>
-                    <button class="m-1" id="continueButton">Venture Forth</button>
-                    <button class="m-1" id="townButton">Back to Enclave</button>
-                </div>
-
-
-            </div>
-            <div class="col-6" id="artScreen"></div>
-        </div>
-        <div class="row" id="menu">
-            <div class="col-4" id="characterSheet">
-                <p id="characterName"></p>
-                <ul id="statsList">
-                    <li class="stats" id="armor">Armor: </li>
-                    <li class="stats" id="attack">Attack: </li>
-                </ul>
-            </div>
-            <div class="col-4" id="attacks">
-                <button class="actions m-2" id="swordButton">Sword</button>
-                <button class="actionsm-2" id="fireballButton">Fireball</button>
-            </div>
-            <div class="col-4" id="pack">
-                <button class="actions m-2" id="healthPotion">Potion of Healing</button>
-                <button class="actions m-2" id="magicPotion">Potion of Magic</button>
             </div>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
             crossorigin="anonymous"></script>

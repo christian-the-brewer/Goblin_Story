@@ -34,6 +34,8 @@ let magicPotionCount = 1
 //world variables
 let levelCounter = 0
 let turnCounter = true
+// submit form
+const form = document.querySelector('#form')
 
 //sword upgrade button increases swordBonus
 
@@ -51,6 +53,43 @@ goldBar.innerText = gold
 //grab screen divs
 const textScreen = document.querySelector('#textScreen')
 const artScreen = document.querySelector('#artScreen')
+const gameScreen = document.querySelector('#gameScreen')
+const startScreen = document.querySelector('#startScreen')
+const introScreen = document.querySelector('#introScreen')
+
+//grab elements of combat screen
+//battle header that will display text
+const battleHeader = document.querySelector('#battleHeader')
+//next two lines will show actions by player and enemy
+const playerActionText = document.querySelector('#playerActionText')
+const enemyActionText = document.querySelector('#enemyActionText')
+//final line shows results of battle
+const resultText = document.querySelector('#resultText')
+//continue button for after combat
+const continueButton = document.querySelector('#continueButton')
+//town button to go into town
+const townButton = document.querySelector('#townButton')
+//town places
+const stayAtInnButton = document.querySelector('#stayAtInn')
+const blacksmithButton = document.querySelector('#blacksmith')
+const shamanButton = document.querySelector('#shaman')
+const merchantButton = document.querySelector('#merchant')
+//town screens
+const blacksmithScreen = document.querySelector('#blacksmithScreen')
+const shamanScreen = document.querySelector('#shamanScreen')
+const merchantScreen = document.querySelector('#merchantScreen')
+const townLocations = document.querySelector('#townLocations')
+//town purchases
+const swordUpgradeButton = document.querySelector('#upgradeSword')
+const fireballUpgradeButton = document.querySelector('#upgradeFireball')
+const buyHealthPotionButton = document.querySelector('#buyHealthPotion')
+const buyMagicPotionButton = document.querySelector('#buyMagicPotion')
+//town go back buttons
+const goBackBlacksmithButton = document.querySelector('#goBackBlacksmith')
+const goBackShamanButton = document.querySelector('#goBackShaman')
+const goBackMerchantButton = document.querySelector('#goBackMerchant')
+//button for starting game in intro screen
+const startGameButton = document.querySelector('#killTheLich')
 
 //function for health bar display
 const updateHealth = () => {
@@ -119,37 +158,7 @@ healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
 magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
 
 
-//grab elements of combat screen
-//battle header that will display text
-const battleHeader = document.querySelector('#battleHeader')
-//next two lines will show actions by player and enemy
-const playerActionText = document.querySelector('#playerActionText')
-const enemyActionText = document.querySelector('#enemyActionText')
-//final line shows results of battle
-const resultText = document.querySelector('#resultText')
-//continue button for after combat
-const continueButton = document.querySelector('#continueButton')
-//town button to go into town
-const townButton = document.querySelector('#townButton')
-//town places
-const stayAtInnButton = document.querySelector('#stayAtInn')
-const blacksmithButton = document.querySelector('#blacksmith')
-const shamanButton = document.querySelector('#shaman')
-const merchantButton = document.querySelector('#merchant')
-//town screens
-const blacksmithScreen = document.querySelector('#blacksmithScreen')
-const shamanScreen = document.querySelector('#shamanScreen')
-const merchantScreen = document.querySelector('#merchantScreen')
-const townLocations = document.querySelector('#townLocations')
-//town purchases
-const swordUpgradeButton = document.querySelector('#upgradeSword')
-const fireballUpgradeButton = document.querySelector('#upgradeFireball')
-const buyHealthPotionButton = document.querySelector('#buyHealthPotion')
-const buyMagicPotionButton = document.querySelector('#buyMagicPotion')
-//town go back buttons
-const goBackBlacksmithButton = document.querySelector('#goBackBlacksmith')
-const goBackShamanButton = document.querySelector('#goBackShaman')
-const goBackMerchantButton = document.querySelector('#goBackMerchant')
+
 
 let enemyHP = 1
 
@@ -299,6 +308,8 @@ const clickMagic = () => {
 // function to pull up next encounter after battle
 const nextEncounter = () => {
     //increment level counter
+    swordButton.style.display = 'inline-block'
+    fireballButton.style.display = 'inline-block'
     levelCounter++
     continueButton.style.display = 'none'
     townButton.style.display = 'none'
@@ -339,6 +350,8 @@ const enemyDefeated = () => {
     continueButton.style.display = 'block'
     townButton.style.display = 'block'
     updateGold(scamp.drop)
+    swordButton.style.display = 'none'
+    fireballButton.style.display = 'none'
 }
 
 // //function for changing view from combat to town
@@ -429,6 +442,7 @@ const buyHealthPotion = () => {
     if (gold > 9) {
         updateGold(-10)
         healthPotionCount += 1
+        healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
     }
 }
 
@@ -436,9 +450,32 @@ const buyMagicPotion = () => {
     if (gold > 14) {
         updateGold(-15)
         magicPotionCount += 1
+        magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
     }
 }
 
+//function for start screen
+const startGame = () => {
+    gameScreen.style.display = 'none'
+    introScreen.style.display = 'none'
+
+}
+
+//start intro function
+const startIntro = () => {
+    startScreen.style.display = 'none'
+    introScreen.style.display = 'block'
+}
+
+const exitIntro = () => {
+    introScreen.style.display = 'none'
+    gameScreen.style.display = 'block'
+    townScreen.style.display = 'none'
+    townLocations.style.display = 'none'
+    blacksmithScreen.style.display = 'none'
+    shamanScreen.style.display = 'none'
+    merchantScreen.style.display = 'none'
+}
 
 //button events
 
@@ -489,5 +526,14 @@ merchantButton.addEventListener('click', goToMerchant)
 goBackMerchantButton.addEventListener('click', goBack)
 buyHealthPotionButton.addEventListener('click', buyHealthPotion)
 buyMagicPotionButton.addEventListener('click', buyMagicPotion)
+//event listrener for submit button
+//add event listener to form to listen for submit
+form.addEventListener('submit', (event) => {
+    //prevent default refresh
+    event.preventDefault()
+    const playerName = input.value
+    startIntro()
+})
+startGameButton.addEventListener('click', exitIntro)
 
-document.addEventListener('DOMContentLoaded', updateHealth(), updateMagic())
+document.addEventListener('DOMContentLoaded', updateHealth(), updateMagic(), startGame())
