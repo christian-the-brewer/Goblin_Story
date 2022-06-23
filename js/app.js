@@ -14,7 +14,7 @@ let attack = 0
 //character gold
 let gold = 10
 //player name
-const playerName = 'Gygax'
+const playerName = input.value
 //PLAYER INVENTORY STATS
 //sword damage
 let sword = 10
@@ -37,7 +37,9 @@ let turnCounter = true
 // submit form
 const form = document.querySelector('#form')
 
-//sword upgrade button increases swordBonus
+//to keep track of enemy in encounter
+let enemy = 0
+let enemyRoll = 0
 
 
 //set up topBar
@@ -132,7 +134,7 @@ const updateGold = (loot) => {
 //grab character name on character sheet
 const characterName = document.querySelector('#characterName')
 //set name on character sheet
-characterName.innerText = "---" + playerName + "---"
+//characterName.innerText = "---" + playerName + "---"
 //grab armor and attack value
 const armor = document.querySelector('#armor')
 armor.innerText = "Armor: " + armorClass
@@ -203,7 +205,7 @@ const hero = {
     monsterAC: 15,
     monsterAttack: 3,
     monsterDamage: 16,
-    drop: 30
+    drop: 15
 
 }
 
@@ -228,7 +230,15 @@ const rollD20 = () => {
 
 //function to check for hit
 const rollForHit = (AC, attk) => {
-    return ((rollD20() + attk) >= AC)
+    let roll = rollD20()
+    if (roll === 20) {
+        return true
+    } else {
+        if ((roll + attk) >= AC) {
+            return true
+        } return false
+    }
+    //return ((rollD20() + attk) >= AC)
 
 }
 
@@ -236,7 +246,7 @@ const rollForHit = (AC, attk) => {
 const clickSword = () => {
     let rolledDamage = 0
     enemyActionText.innerText = ''
-    if (rollForHit(10, 0)) {
+    if (rollForHit(enemy.monsterAC, attack)) {
         rolledDamage = rollForDamage()
         enemyHP -= (rolledDamage + playerSwordBonus)
         console.log(enemyHP)
@@ -246,7 +256,7 @@ const clickSword = () => {
     }
     if (enemyHP < 1) {
         playerActionText.innerText = 'You slash with your sword for ' + (rolledDamage + playerSwordBonus) + ' damage!'
-        resultText.innerText = "You have defeated the scamp!"
+        resultText.innerText = `You have defeated the ${enemy.name}!`
         continueButton.style.display = 'block'
     }
     if (enemyHP > 0) {
@@ -308,65 +318,104 @@ const clickMagic = () => {
 // function to pull up next encounter after battle
 const nextEncounter = () => {
     //increment level counter
+    levelCounter++
+    enemyRoll = (Math.floor(Math.random() * 20) + 1)
+
+    if (levelCounter < 10) {
+
+        if (enemyRoll < 13) {
+            enemy = scamp
+        } else {
+            enemy = adventurer
+        }
+    } else if (levelCounter < 20) {
+        if (enemyRoll < 6) {
+            enemy = scamp
+        } else if (enemyRoll < 15) {
+            enemy = adventurer
+        } else {
+            enemy = troll
+        }
+    } else if (levelCounter < 50) {
+        if (enemyRoll < 2) {
+            enemy = scamp
+        } else if (enemyRoll < 10) {
+            enemy = adventurer
+        } else if (enemyRoll < 16) {
+            enemy = troll
+        } else {
+            enemy = hero
+        }
+    } else if (levelCounter < 70) {
+        if (enemyRoll < 3) {
+            enemy = scamp
+        } else if (enemyRoll < 10) {
+            enemy = adventurer
+        } else if (enemyRoll < 16) {
+            enemy = troll
+        } else {
+            enemy = hero
+        }
+    } else {
+        if (enemyRoll < 2) {
+            enemy = scamp
+        } else if (enemyRoll < 10) {
+            enemy = adventurer
+        } else if (enemyRoll < 16) {
+            enemy = troll
+        } else if (enemyRoll < 19) {
+            enemy = hero
+        } else {
+            enemy = lich
+        }
+    }
+    //set up screens and buttons
     swordButton.style.display = 'inline-block'
     fireballButton.style.display = 'inline-block'
-    levelCounter++
     continueButton.style.display = 'none'
     townButton.style.display = 'none'
     blacksmithScreen.style.display = 'none'
     shamanScreen.style.display = 'none'
     merchantScreen.style.display = 'none'
     townScreen.style.display = 'none'
-
+    //set up text screen
     playerActionText.innerText = ''
     enemyActionText.innerText = ''
     resultText.innerText = ''
-    battleHeader.innerText = "You have encountered a scamp!"
-    enemyHP = 1
-
-
-
-
+    if (enemy !== lich) {
+        battleHeader.innerText = "You have encountered " + enemy.name + "!"
+    } else {
+        battleHeader.innerText = "The Lich King, taking notice of your growing power, has decided to put an end to you itself!"
+    }
+    enemyHP = enemy.hitpoints
 }
+
 
 //function to attack player 
 const enemyAttack = () => {
-    if (rollForHit(armorClass, 0)) {
-        currentHealth -= 5
+    if (rollForHit(armorClass, enemy.monsterAttack)) {
+        currentHealth -= enemy.monsterDamage
         updateHealth()
-        enemyActionText.innerText = 'The Scamp swipes at you for 5 damage!'
+        enemyActionText.innerText = `The ${enemy.name} swipes at you for ${enemy.monsterDamage} damage!`
     } else {
-        enemyActionText.innerText = 'You block the enemy Scamps\'s attack!'
+        enemyActionText.innerText = `You block the ${enemy.name}\'s attack!`
     }
     if (currentHealth < 1) {
         resultText.innerText = 'You have been defeated. As you fall to the cold, dark dungeon floor, your last thoughts are of your family...'
+
 
     }
 }
 
 //function for defeated enemy
 const enemyDefeated = () => {
-    resultText.innerText = "You have defeated the scamp!"
+    resultText.innerText = `You have defeated the ${enemy.name}!`
     continueButton.style.display = 'block'
     townButton.style.display = 'block'
     updateGold(scamp.drop)
     swordButton.style.display = 'none'
     fireballButton.style.display = 'none'
 }
-
-// //function for changing view from combat to town
-// const townView = () => {
-//     continueButton.style.display = 'block'
-//     townButton.style.display = 'none'
-//     playerActionText.innerText = ''
-//     enemyActionText.innerText = ''
-//     resultText.innerText = ''
-//     battleHeader.innerText = ''
-//     townScreen.style.display = 'block'
-//     blacksmithScreen.style.display = 'none'
-//     shamanScreen.style.display = 'none'
-//     merchantScreen.style.display = 'none'
-// }
 
 //function for changing to town instead of combat
 const goToTown = () => {
@@ -475,6 +524,8 @@ const exitIntro = () => {
     blacksmithScreen.style.display = 'none'
     shamanScreen.style.display = 'none'
     merchantScreen.style.display = 'none'
+    swordButton.style.display = 'none'
+    fireballButton.style.display = 'none'
 }
 
 //button events
@@ -531,7 +582,7 @@ buyMagicPotionButton.addEventListener('click', buyMagicPotion)
 form.addEventListener('submit', (event) => {
     //prevent default refresh
     event.preventDefault()
-    const playerName = input.value
+    characterName.innerText = "---" + input.value + "---"
     startIntro()
 })
 startGameButton.addEventListener('click', exitIntro)
