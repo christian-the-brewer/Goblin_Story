@@ -41,6 +41,22 @@ const form = document.querySelector('#form')
 let enemy = 0
 let enemyRoll = 0
 
+//sounds
+const potionBuyingSound = new Audio('/sounds/RPG Sound Pack/inventory/bottle.wav')
+const upgradeSwordSound = new Audio('/sounds/RPG Sound Pack/inventory/metal-small2.wav')
+const upgradeArmorSound = new Audio('/sounds/RPG Sound Pack/inventory/chainmail1.wav')
+const drinkPotionSound = new Audio('/sounds/RPG Sound Pack/inventory/bubble3.wav')
+const innSound = new Audio('/sounds/RPG Sound Pack/inventory/coin.wav')
+const swordHitSound = new Audio('/sounds/RPG Sound Pack/battle/sword-unsheathe5.wav')
+const swordMissSound = new Audio('/sounds/RPG Sound Pack/battle/swing.wav')
+const fireballSound = new Audio('sounds/RPG Sound Pack/battle/magic1.wav')
+const upgradeAttackSound = new Audio('/sounds/RPG Sound Pack/interface/interface5.wav')
+const scampSound = new Audio('sounds/RPG Sound Pack/NPC/gutteral beast/mnstr7.wav')
+const adventurerSound = new Audio('sounds/Mp3/Human/Human_Good_26.mp3')
+const trollSound = new Audio('sounds/RPG Sound Pack/NPC/ogre/ogre4.wav')
+const heroSound = new Audio('sounds/Mp3/Human/Human_Good_11.mp3')
+const lichSound = new Audio('sounds/RPG Sound Pack/NPC/shade/shade13.wav')
+const goBackSound = new Audio('sounds/RPG Sound Pack/world/door.wav')
 
 //set up topBar
 //grab elements
@@ -58,6 +74,7 @@ const artScreen = document.querySelector('#artScreen')
 const gameScreen = document.querySelector('#gameScreen')
 const startScreen = document.querySelector('#startScreen')
 const introScreen = document.querySelector('#introScreen')
+const text = document.querySelector('#text')
 
 //grab elements of combat screen
 //battle header that will display text
@@ -83,9 +100,14 @@ const merchantScreen = document.querySelector('#merchantScreen')
 const townLocations = document.querySelector('#townLocations')
 //town purchases
 const swordUpgradeButton = document.querySelector('#upgradeSword')
+const armorUpgradeButton = document.querySelector('#upgradeArmor')
+const attackUpgradeButton = document.querySelector('#upgradeAttack')
 const fireballUpgradeButton = document.querySelector('#upgradeFireball')
 const buyHealthPotionButton = document.querySelector('#buyHealthPotion')
 const buyMagicPotionButton = document.querySelector('#buyMagicPotion')
+const buyGoodLuckCharmButton = document.querySelector('#buyGoodLuckCharm')
+const buySolutionOfHealthButton = document.querySelector('#buySolutionOfHealth')
+const buySolutionOfMagicButton = document.querySelector('#buySolutionOfMagic')
 //town go back buttons
 const goBackBlacksmithButton = document.querySelector('#goBackBlacksmith')
 const goBackShamanButton = document.querySelector('#goBackShaman')
@@ -172,7 +194,8 @@ const scamp = {
     monsterAC: 12,
     monsterAttack: 0,
     monsterDamage: 5,
-    drop: 3
+    drop: 5,
+    sound: scampSound
 
 }
 
@@ -183,7 +206,8 @@ const adventurer = {
     monsterAC: 10,
     monsterAttack: 1,
     monsterDamage: 7,
-    drop: 5
+    drop: 7,
+    sound: adventurerSound
 
 }
 
@@ -194,7 +218,8 @@ const troll = {
     monsterAC: 8,
     monsterAttack: 0,
     monsterDamage: 14,
-    drop: 10
+    drop: 10,
+    sound: trollSound
 
 }
 
@@ -204,8 +229,9 @@ const hero = {
     hitpoints: 35,
     monsterAC: 15,
     monsterAttack: 3,
-    monsterDamage: 16,
-    drop: 15
+    monsterDamage: 14,
+    drop: 20,
+    sound: heroSound
 
 }
 
@@ -216,6 +242,7 @@ const lich = {
     monsterAC: 16,
     monsterAttack: 5,
     monsterDamage: 20,
+    sound: lichSound
 
 }
 //function to roll for damage
@@ -238,7 +265,6 @@ const rollForHit = (AC, attk) => {
             return true
         } return false
     }
-    //return ((rollD20() + attk) >= AC)
 
 }
 
@@ -249,10 +275,11 @@ const clickSword = () => {
     if (rollForHit(enemy.monsterAC, attack)) {
         rolledDamage = rollForDamage()
         enemyHP -= (rolledDamage + playerSwordBonus)
-        console.log(enemyHP)
+        swordHitSound.play()
         playerActionText.innerText = 'You slash with your sword for ' + (rolledDamage + playerSwordBonus) + ' damage!'
     } else {
         playerActionText.innerText = 'You slash with you sword but miss!'
+        swordMissSound.play()
     }
     if (enemyHP < 1) {
         playerActionText.innerText = 'You slash with your sword for ' + (rolledDamage + playerSwordBonus) + ' damage!'
@@ -272,10 +299,11 @@ const clickFireball = () => {
         currentMagic -= 5
         updateMagic()
         enemyActionText.innerText = ''
-        playerActionText.innerText = 'You cast Fireball! It burns the enemy for ' + (30 + playerFireballBonus) + ' damage!'
-        enemyHP -= (30 + playerFireballBonus)
+        playerActionText.innerText = 'You cast Fireball! It burns the enemy for ' + (20 + playerFireballBonus) + ' damage!'
+        enemyHP -= (20 + playerFireballBonus)
+        fireballSound.play()
         if (enemyHP < 1) {
-            resultText.innerText = "You have defeated the scamp!"
+            resultText.innerText = `You have defeated the ${enemy.name}!`
             continueButton.style.display = 'block'
         }
         if (enemyHP > 0) {
@@ -294,6 +322,7 @@ const clickHealth = () => {
         healthPotionCount -= 1
         healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
         updateHealth()
+        drinkPotionSound.play()
         playerActionText.innerText = 'You take a quick drink of a healing potion. Your stamina is replenished as your wounds are healed'
         if (enemyHP > 0) {
             enemyAttack()
@@ -308,6 +337,7 @@ const clickMagic = () => {
         magicPotionCount -= 1
         magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
         updateMagic()
+        drinkPotionSound.play()
         playerActionText.innerText = 'You take a quick drink of a magic potion. Your magic reserves are restored as power flows through your body'
         if (enemyHP > 0) {
             enemyAttack()
@@ -336,7 +366,7 @@ const nextEncounter = () => {
         } else {
             enemy = troll
         }
-    } else if (levelCounter < 50) {
+    } else if (levelCounter < 60) {
         if (enemyRoll < 2) {
             enemy = scamp
         } else if (enemyRoll < 10) {
@@ -346,7 +376,7 @@ const nextEncounter = () => {
         } else {
             enemy = hero
         }
-    } else if (levelCounter < 70) {
+    } else if (levelCounter < 80) {
         if (enemyRoll < 3) {
             enemy = scamp
         } else if (enemyRoll < 10) {
@@ -388,6 +418,7 @@ const nextEncounter = () => {
         battleHeader.innerText = "The Lich King, taking notice of your growing power, has decided to put an end to you itself!"
     }
     enemyHP = enemy.hitpoints
+    enemy.sound.play()
 }
 
 
@@ -401,9 +432,10 @@ const enemyAttack = () => {
         enemyActionText.innerText = `You block the ${enemy.name}\'s attack!`
     }
     if (currentHealth < 1) {
-        resultText.innerText = 'You have been defeated. As you fall to the cold, dark dungeon floor, your last thoughts are of your family...'
-
-
+        gameScreen.style.display = 'none'
+        introScreen.style.display = 'block'
+        text.innerText = 'You have been defeated. As you fall to the cold, dark dungeon floor, your last thoughts are of your family...'
+        startGameButton.style.display = 'none'
     }
 }
 
@@ -412,9 +444,15 @@ const enemyDefeated = () => {
     resultText.innerText = `You have defeated the ${enemy.name}!`
     continueButton.style.display = 'block'
     townButton.style.display = 'block'
-    updateGold(scamp.drop)
+    updateGold(enemy.drop)
     swordButton.style.display = 'none'
     fireballButton.style.display = 'none'
+    if (enemy === lich) {
+        gameScreen.style.display = 'none'
+        introScreen.style.display = 'block'
+        text.innerText = 'The Lich King falls before you. You manage to catch a look of surprise on its shriveled, sunken face as its body crumples to ash. You pick up the Staff of Greater Restoration, feeling relief wash over you, as you turn to head back to your soon to be healed family.'
+        startGameButton.style.display = 'none'
+    }
 }
 
 //function for changing to town instead of combat
@@ -432,7 +470,7 @@ const goToTown = () => {
     townLocations.style.display = 'block'
 }
 
-//function for staying at in
+//function for staying at inn
 const stayAtInn = () => {
     if (gold > 4) {
         updateGold(-5)
@@ -440,6 +478,7 @@ const stayAtInn = () => {
         updateHealth()
         currentMagic = maxMagic
         updateMagic()
+        innSound.play()
     }
 }
 
@@ -447,16 +486,19 @@ const stayAtInn = () => {
 const goToBlacksmith = () => {
     townLocations.style.display = 'none'
     blacksmithScreen.style.display = 'block'
+    goBackSound.play()
 }
 //function for going to shaman
 const goToShaman = () => {
     townLocations.style.display = 'none'
     shamanScreen.style.display = 'block'
+    goBackSound.play()
 }
 //function for going to merchant
 const goToMerchant = () => {
     townLocations.style.display = 'none'
     merchantScreen.style.display = 'block'
+    goBackSound.play()
 }
 
 //function to upgrade sword stats
@@ -465,24 +507,63 @@ const upgradeSword = () => {
         updateGold(-20)
         playerSwordBonus += 1
         swordButton.innerText = "+ " + playerSwordBonus + " Sword"
+        upgradeSwordSound.play()
+    }
+}
+//function to upgrade armor class
+const upgradeArmor = () => {
+    if (gold > 49) {
+        updateGold(-50)
+        armorClass += 1
+        armor.innerText = "Armor: " + armorClass
+        upgradeArmorSound.play()
+    }
+}
+//function to upgrade attack
+const upgradeAttack = () => {
+    if (gold > 29) {
+        updateGold(-30)
+        attack += 1
+        attackBonus.innerText = `Attack Bonus: ${attack}`
+        upgradeAttackSound.play()
     }
 }
 
 //function to upgrade fireball spell
 const upgradeFireball = () => {
-    if (gold > 39) {
-        updateGold(-40)
+    if (gold > 29) {
+        updateGold(-30)
         playerFireballBonus += 2
         fireballButton.innerText = "+ " + playerFireballBonus + " Fireball"
     }
 }
 
+//function to upgrade health
+const upgradeHealth = () => {
+    if (gold > 49) {
+        updateGold(-50)
+        maxHealth += 10
+        currentHealth += 10
+        updateHealth()
+    }
+}
+
+//function to upgrade magic
+const upgradeMagic = () => {
+    if (gold > 49) {
+        updateGold(-50)
+        maxMagic += 10
+        currentMagic += 10
+        updateMagic()
+    }
+}
 //function to go back from town locations
 const goBack = () => {
     townLocations.style.display = 'block'
     blacksmithScreen.style.display = 'none'
     shamanScreen.style.display = 'none'
     merchantScreen.style.display = 'none'
+    goBackSound.play()
 
 }
 
@@ -492,6 +573,7 @@ const buyHealthPotion = () => {
         updateGold(-10)
         healthPotionCount += 1
         healthPotionButton.innerText = "Potion of Healing " + healthPotionCount
+        potionBuyingSound.play()
     }
 }
 
@@ -500,6 +582,7 @@ const buyMagicPotion = () => {
         updateGold(-15)
         magicPotionCount += 1
         magicPotionButton.innerText = "Potion of Magic " + magicPotionCount
+        potionBuyingSound.play()
     }
 }
 
@@ -537,28 +620,6 @@ const exitIntro = () => {
 //on page load, load up start screen to accept name input
 //button assigns name to playerName and loads into intro screen that listens to for mouse clicks to continue
 
-
-//combat
-// after player clicks an action game will check to see if enemy is alive and if so they will attack
-// const stayAtInnButton = document.querySelector('#stayAtInn')
-// const blacksmithButton = document.querySelector('#blacksmith')
-// const shamanButton = document.querySelector('#shaman')
-// const merchantButton = document.querySelector('#merchant')
-// //town screens
-// const blacksmithScreen = document.querySelector('#blacksmithScreen')
-// const shamanScreen = document.querySelector('#shamanScreen')
-// const merchantScreen = document.querySelector('#merchantScreen')
-// //town purchases
-// const swordUpgradeButton = document.querySelector('#upgradeSword')
-// const fireballUpgradeButton = document.querySelector('#upgradeFireball')
-// const buyHealthPotionButton = document.querySelector('#buyHealthPotion')
-// const buyMagicPotionButton = document.querySelector('#buyMagicPotion')
-// //town go back buttons
-// const goBackBlacksmithButton = document.querySelector('#goBackBlacksmith')
-// const goBackShamanButton = document.querySelector('#goBackShaman')
-// const goBackMerchantButton = document.querySelector('#goBackMerchant')
-
-
 //add listneners to all the buttons
 swordButton.addEventListener('click', clickSword)
 fireballButton.addEventListener('click', clickFireball)
@@ -569,6 +630,8 @@ townButton.addEventListener('click', goToTown)
 stayAtInnButton.addEventListener('click', stayAtInn)
 blacksmithButton.addEventListener('click', goToBlacksmith)
 swordUpgradeButton.addEventListener('click', upgradeSword)
+armorUpgradeButton.addEventListener('click', upgradeArmor)
+attackUpgradeButton.addEventListener('click', upgradeAttack)
 fireballUpgradeButton.addEventListener('click', upgradeFireball)
 goBackBlacksmithButton.addEventListener('click', goBack)
 shamanButton.addEventListener('click', goToShaman)
@@ -577,6 +640,9 @@ merchantButton.addEventListener('click', goToMerchant)
 goBackMerchantButton.addEventListener('click', goBack)
 buyHealthPotionButton.addEventListener('click', buyHealthPotion)
 buyMagicPotionButton.addEventListener('click', buyMagicPotion)
+buySolutionOfHealthButton.addEventListener('click', upgradeHealth)
+buySolutionOfMagicButton.addEventListener('click', upgradeMagic)
+//buyGoodLuckCharmButton.addEventListener('click', buyGoodLuckCharm)
 //event listrener for submit button
 //add event listener to form to listen for submit
 form.addEventListener('submit', (event) => {
