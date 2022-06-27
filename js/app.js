@@ -58,6 +58,15 @@ const heroSound = new Audio('sounds/Mp3/Human/Human_Good_11.mp3')
 const lichSound = new Audio('sounds/RPG Sound Pack/NPC/shade/shade13.wav')
 const goBackSound = new Audio('sounds/RPG Sound Pack/world/door.wav')
 
+
+//art
+const scampArt = 'img/scamp.PNG'
+const adventurerArt = 'img/adventurer.PNG'
+const trollArt = 'img/troll.PNG'
+const heroArt = 'img/hero.PNG'
+const lichArt = 'img/lich.PNG'
+const goblinCityArt = 'img/goblin_city.jpeg'
+
 //set up topBar
 //grab elements
 const healthBar = document.querySelector('#healthBar')
@@ -194,8 +203,9 @@ const scamp = {
     monsterAC: 12,
     monsterAttack: 0,
     monsterDamage: 5,
-    drop: 5,
-    sound: scampSound
+    drop: 7,
+    sound: scampSound,
+    art: scampArt
 
 }
 
@@ -206,8 +216,9 @@ const adventurer = {
     monsterAC: 10,
     monsterAttack: 1,
     monsterDamage: 7,
-    drop: 7,
-    sound: adventurerSound
+    drop: 10,
+    sound: adventurerSound,
+    art: adventurerArt
 
 }
 
@@ -218,8 +229,9 @@ const troll = {
     monsterAC: 8,
     monsterAttack: 0,
     monsterDamage: 14,
-    drop: 10,
-    sound: trollSound
+    drop: 15,
+    sound: trollSound,
+    art: trollArt
 
 }
 
@@ -230,8 +242,9 @@ const hero = {
     monsterAC: 15,
     monsterAttack: 3,
     monsterDamage: 14,
-    drop: 20,
-    sound: heroSound
+    drop: 25,
+    sound: heroSound,
+    art: heroArt
 
 }
 
@@ -242,7 +255,8 @@ const lich = {
     monsterAC: 16,
     monsterAttack: 5,
     monsterDamage: 20,
-    sound: lichSound
+    sound: lichSound,
+    art: lichArt
 
 }
 //function to roll for damage
@@ -419,6 +433,13 @@ const nextEncounter = () => {
     }
     enemyHP = enemy.hitpoints
     enemy.sound.play()
+    artScreen.innerHTML = ''
+    let enemyArt = document.createElement('img')
+    artScreen.appendChild(enemyArt)
+    enemyArt.classList.add('enemyArt')
+    enemyArt.src = enemy.art
+
+
 }
 
 
@@ -447,6 +468,7 @@ const enemyDefeated = () => {
     updateGold(enemy.drop)
     swordButton.style.display = 'none'
     fireballButton.style.display = 'none'
+    artScreen.innerHTML = ''
     if (enemy === lich) {
         gameScreen.style.display = 'none'
         introScreen.style.display = 'block'
@@ -468,6 +490,11 @@ const goToTown = () => {
     shamanScreen.style.display = 'none'
     merchantScreen.style.display = 'none'
     townLocations.style.display = 'block'
+    artScreen.innerHTML = ''
+    let townArt = document.createElement('img')
+    artScreen.appendChild(townArt)
+    townArt.classList.add('townArt')
+    townArt.src = goblinCityArt
 }
 
 //function for staying at inn

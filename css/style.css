@@ -6,8 +6,8 @@
     background-color: red;
 }
 
-#magicBar {
-    //background-color: blue;
+.container {
+    background-color: grey;
 }
 
 #goldBar {
@@ -20,4 +20,27 @@
 
 h2 {
     font-size: 22px;
+}
+
+.profile {
+    width: 500px;
+    height: 500px;
+}
+
+.enemyArt {
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    display: block;
+}
+
+.townArt {
+    width: 600px;
+    height: 400px;
+    margin: auto;
+    display: block;
+}
+
+#artScreen {
+    text-align: center;
 }
