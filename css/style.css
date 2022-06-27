@@ -22,9 +22,18 @@ h2 {
     font-size: 22px;
 }
 
+#startScreen {
+    text-align: center;
+}
+
+#title {
+    text-align: center;
+}
+
 .profile {
     width: 500px;
     height: 500px;
+
 }
 
 .enemyArt {
